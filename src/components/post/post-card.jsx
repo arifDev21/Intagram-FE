@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import { Avatar, Icon, useToast } from '@chakra-ui/react';
 import {
   Comment,
@@ -123,7 +124,7 @@ export const PostCard = ({
         </div>
 
         <div className="flex justify-center items-center">
-          <div className={userSelector.id != user.id ? 'hidden' : null}>
+          <div className={userSelector.id !== user.id ? 'hidden' : null}>
             <Opt_Group onClick={() => setIsOpen(!isOpen)} />
             <div
               className={`absolute bg-white  ml-[-40px] w-20 text-center text-sm  ${
@@ -151,12 +152,10 @@ export const PostCard = ({
       </div>
       <img
         src={post_url + image_url}
-        // onError={({ currentTarget }) => {
-        //  currentTarget.onerror = null;
-        //  currentTarget.src = image_url;
-        // }}
         style={{ aspectRatio: '1', width: '100vw' }}
       />
+      {console.log(post_url, 'posturl in post card')}
+
       <div
         className="flex justify-between w-full items-center icons"
         style={{ padding: '8px 15px' }}
@@ -164,7 +163,7 @@ export const PostCard = ({
         <div className="flex gap-[15px]">
           <Icon
             as={
-              totalLikes.find((like) => like.user_id == userSelector.id)
+              totalLikes.find((like) => like.user_id === userSelector.id)
                 ? FilledLove
                 : Love
             }
@@ -179,7 +178,6 @@ export const PostCard = ({
         </div>
       </div>
       <div className="w-full " style={{ padding: '0px 15px 5px 15px' }}>
-        {/* Liked by <b>thekamraan</b> and <b>905,235</b> others */}
         <b>{totalLikes.length} Likes</b>
       </div>
       <div
@@ -216,7 +214,7 @@ export const PostCard = ({
                 maxH="24px"
                 objectFit={'cover'}
                 className="cursor-pointer"
-                src={avatar_url + c.user.image_url}
+                src={avatar_url + user.image_url}
               />{' '}
               {c.comment}{' '}
             </div>
