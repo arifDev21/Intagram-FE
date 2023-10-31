@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
-import { Post, Reels, Suggestion, Tagged } from "../../assets/icons";
-import { PostGrid } from "../../components/post/post-grid";
-import { EditProfile } from "../../components/profile/modal-profile";
-import { ProfileStories, StoryCard } from "../../components/story/story";
-import { ProfileTemplate } from "../../components/template/template";
-import { useSelector } from "react-redux";
-import { api } from "../../api/axios";
-import { useParams } from "react-router-dom";
-import { Avatar } from "@chakra-ui/react";
+import { useEffect, useState } from 'react';
+import { Post, Reels, Suggestion, Tagged } from '../../assets/icons';
+import { PostGrid } from '../../components/post/post-grid';
+import { EditProfile } from '../../components/profile/modal-profile';
+import { ProfileStories, StoryCard } from '../../components/story/story';
+import { ProfileTemplate } from '../../components/template/template';
+import { useSelector } from 'react-redux';
+import { api } from '../../api/axios';
+import { useParams } from 'react-router-dom';
+import { Avatar } from '@chakra-ui/react';
 export const ProfilePage = () => {
   // const posts = [
   //   {
@@ -44,7 +44,7 @@ export const ProfilePage = () => {
   const params = useParams();
   const fetchUser = () => {
     api
-      .get("/auth/username/" + params.username)
+      .get('/auth/username/' + params.username)
       .then((res) => {
         console.log(res.data);
         setUser(res.data);
@@ -60,7 +60,7 @@ export const ProfilePage = () => {
   };
   const follow = () => {
     api
-      .post("/follows/", {
+      .post('/follows/', {
         following_user_id: userSelector?.id,
         followed_user_id: user.id,
       })
@@ -77,7 +77,7 @@ export const ProfilePage = () => {
   return (
     <>
       <EditProfile isOpen={isOpen} onClose={() => setIsOpen(false)} />
-      <div className={`transition-all ${isOpen ? "hidden" : null}`}>
+      <div className={`transition-all ${isOpen ? 'hidden' : null}`}>
         <ProfileTemplate>
           {/* //following followers */}
           <div className="flex items-center justify-between w-full">
@@ -133,8 +133,8 @@ export const ProfilePage = () => {
                       {user?.followed_users?.find(({ following_user_id }) => {
                         return following_user_id == userSelector.id;
                       })
-                        ? "Unfollow"
-                        : "Follow"}
+                        ? 'Unfollow'
+                        : 'Follow'}
                     </button>
                     <a className="w-full" href={`/message/${user.username}`}>
                       <button className="w-full grow">Send Message</button>
@@ -162,6 +162,7 @@ export const ProfilePage = () => {
               </div>
             </div>
             <PostGrid posts={posts} />
+            {console.log(posts, 'post in profile')}
           </div>
         </ProfileTemplate>
       </div>
