@@ -1,4 +1,5 @@
-import { Avatar, useToast, Image } from '@chakra-ui/react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useToast, Image } from '@chakra-ui/react';
 import { ModalTemplate, Template } from '../template/template';
 import { useFormik } from 'formik';
 import { useEffect } from 'react';
@@ -7,17 +8,13 @@ import { useSelector } from 'react-redux';
 import { Check, Close } from '../../assets/icons';
 import { useRef } from 'react';
 import { renderImage } from '../../lib/render-image';
-import { useDispatch } from 'react-redux';
-import { userUpdate } from '../../redux/middlewares/auth-middleware';
-import { showToast } from '../../lib/toast';
-import { constant } from '../../constant';
+
 import defaultImage from '../../assets/default_image.png';
 import { api } from '../../api/axios';
 export const ModalPost = ({ isOpen, onClose, edit }) => {
   const userSelector = useSelector((state) => state.auth);
   const ref = useRef();
   const toast = useToast();
-  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       image_url: '',

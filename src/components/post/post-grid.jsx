@@ -1,25 +1,44 @@
-/* eslint-disable jsx-a11y/alt-text */
-import { useState } from "react";
-import { ModalDetailPost } from "./post-detail-modal";
+import { useState } from 'react';
+import { ModalDetailPost } from './post-detail-modal';
 
 export const PostGrid = ({ posts = [] }) => {
-  console.log(posts);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
   return (
     <div className="post-grid grid grid-cols-3">
       {posts?.map((post, key) => (
-        <PostGridCard post={post} key={key} />
+        <PostGridCard
+          post={post}
+          key={key}
+          openModal={openModal}
+          onClose={closeModal}
+        />
       ))}
+      {isOpen && (
+        <ModalDetailPost isOpen={isOpen} onClose={closeModal} posts={posts} />
+      )}
     </div>
   );
 };
 
-const PostGridCard = ({ post }) => {
+const PostGridCard = ({ post, openModal, onClose }) => {
   const post_url = process.env.REACT_APP_API_IMAGE_POST_URL;
-  console.log(post);
-  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
-      <img src={post_url + post.image_url} onClick={() => setIsOpen(true)} />
+      <img
+        src={post_url + post.image_url}
+        alt={post.title}
+        onClick={openModal}
+      />
     </>
   );
 };

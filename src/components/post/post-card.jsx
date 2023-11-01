@@ -1,5 +1,6 @@
+/* eslint-disable react/jsx-pascal-case */
 /* eslint-disable jsx-a11y/alt-text */
-import { Avatar, Icon, useToast } from "@chakra-ui/react";
+import { Avatar, Icon, useToast } from '@chakra-ui/react';
 import {
   Comment,
   FilledLove,
@@ -7,11 +8,11 @@ import {
   Opt_Group,
   Saved,
   Share,
-} from "../../assets/icons";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { ModalPost } from "./post-modal";
-import { api } from "../../api/axios";
+} from '../../assets/icons';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { ModalPost } from './post-modal';
+import { api } from '../../api/axios';
 
 export const PostCard = ({
   user,
@@ -25,13 +26,13 @@ export const PostCard = ({
 
   const avatar_url = process.env.REACT_APP_API_IMAGE_AVATAR_URL;
   const post_url = process.env.REACT_APP_API_IMAGE_POST_URL;
-  console.log(post_url);
+
   //  const [liked, setLiked] = useState(
   //   postlikes.find((like) => like.user_id == userSelector.id) ? true : false
   //  );
   const [totalLikes, setTotalLikes] = useState(postlikes);
   const [totalComments, setTotalComments] = useState(comments);
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState('');
   const [showComment, setShowComment] = useState(false);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -39,28 +40,28 @@ export const PostCard = ({
 
   const toast = useToast();
   const deletePost = () => {
-    const token = localStorage.getItem("auth");
+    const token = localStorage.getItem('auth');
     api
       .delete(`/posts/${id}`, {
         params: { token, user_id: userSelector.id },
       })
       .then((result) => {
         toast({
-          title: "Your post has been deleted",
-          status: "success",
-          description: "successfully deleted the post",
+          title: 'Your post has been deleted',
+          status: 'success',
+          description: 'successfully deleted the post',
           isClosable: true,
-          position: "top",
+          position: 'top',
           duration: 1500,
         });
         window.location.reload();
       })
       .catch((err) => {
         toast({
-          title: "Delete post failed",
+          title: 'Delete post failed',
           description: err?.response?.data,
-          status: "error",
-          position: "top",
+          status: 'error',
+          position: 'top',
           isClosable: true,
           duration: 1500,
         });
@@ -69,7 +70,7 @@ export const PostCard = ({
 
   const likePost = () => {
     api
-      .post("/postlike", {
+      .post('/postlike', {
         post_id: id,
         user_id: userSelector.id,
       })
@@ -81,14 +82,14 @@ export const PostCard = ({
 
   const addComment = () => {
     api
-      .post("/comments", {
+      .post('/comments', {
         post_id: id,
         user_id: userSelector.id,
         comment,
       })
       .then((result) => {
         setTotalComments(result.data);
-        setComment("");
+        setComment('');
       });
   };
 
@@ -106,14 +107,20 @@ export const PostCard = ({
 
       <div
         className="flex justify-between w-full  "
-        style={{ padding: "8px 16px" }}
+        style={{ padding: '8px 16px' }}
       >
         <div className="flex items-center gap-[5px]  w-full ">
-          <div style={{ padding: "3px", borderRadius: "50%", border: "none" }}>
+          <div
+            style={{
+              padding: '3px',
+              borderRadius: '50%',
+              border: 'none',
+            }}
+          >
             <Avatar
               maxW="34px"
               maxH="34px"
-              objectFit={"cover"}
+              objectFit={'cover'}
               className="cursor-pointer"
               src={avatar_url + user?.image_url}
             />
@@ -124,11 +131,11 @@ export const PostCard = ({
         </div>
 
         <div className="flex justify-center items-center">
-          <div className={userSelector.id !== user.id ? "hidden" : null}>
+          <div className={userSelector?.id !== user?.id ? 'hidden' : null}>
             <Opt_Group onClick={() => setIsOpen(!isOpen)} />
             <div
               className={`absolute bg-white  ml-[-40px] w-20 text-center text-sm  ${
-                isOpen ? "" : "hidden"
+                isOpen ? '' : 'hidden'
               }`}
             >
               <div
@@ -150,21 +157,22 @@ export const PostCard = ({
           </div>
         </div>
       </div>
-      {console.log(image_url)}
       <img
         src={post_url + image_url}
-        style={{ aspectRatio: "1", width: "100vw" }}
+        onError={({ currentTarget }) => {
+          currentTarget.onerror = null;
+          currentTarget.src = image_url;
+        }}
+        style={{ aspectRatio: '1', width: '100%', height: '380px' }}
       />
-      {console.log(post_url, "posturl in post card")}
-
       <div
         className="flex justify-between w-full items-center icons"
-        style={{ padding: "8px 15px" }}
+        style={{ padding: '8px 15px' }}
       >
         <div className="flex gap-[15px]">
           <Icon
             as={
-              totalLikes.find((like) => like.user_id === userSelector.id)
+              totalLikes?.find((like) => like.user_id === userSelector.id)
                 ? FilledLove
                 : Love
             }
@@ -178,46 +186,45 @@ export const PostCard = ({
           <Saved />
         </div>
       </div>
-      <div className="w-full " style={{ padding: "0px 15px 5px 15px" }}>
-        <b>{totalLikes.length} Likes</b>
+      <div className="w-full " style={{ padding: '0px 15px 5px 15px' }}>
+        {/* Liked by <b>thekamraan</b> and <b>905,235</b> others */}
+        <b>{totalLikes?.length} Likes</b>
       </div>
       <div
         className="w-full flex flex-wrap"
         style={{
-          padding: "0px 15px 5px 15px",
+          padding: '0px 15px 5px 15px',
         }}
       >
         <span className="w-full ">
           <b>{user?.username}</b> {caption}
-          {/* <span className=" text-gray-400 flex items-end">
-      <span className="cursor-pointer">more</span>
-     </span> */}
         </span>
       </div>
 
       <div
         className={`w-full text-gray-400 cursor-pointer
     }`}
-        style={{ padding: "0px 15px 5px 15px" }}
+        style={{ padding: '0px 15px 5px 15px' }}
       >
         <span
-          className={`${totalComments.length && !showComment ? "" : "hidden"} `}
+          className={`${
+            totalComments?.length && !showComment ? '' : 'hidden'
+          } `}
           onClick={() => setShowComment(true)}
         >
-          View all {totalComments.length} comments
+          View all {totalComments?.length} comments
         </span>
-        <div className={`${showComment ? "" : "hidden"}`}>
-          {totalComments.map((c, i) => (
+        <div className={`${showComment ? '' : 'hidden'}`}>
+          {totalComments?.map((c, i) => (
             <div key={i} className="flex flex-wrap gap-1 text-black">
-              {/* <b>{c.user.username}</b> */}
               <Avatar
                 maxW="24px"
                 maxH="24px"
-                objectFit={"cover"}
+                objectFit={'cover'}
                 className="cursor-pointer"
-                src={avatar_url + user.image_url}
-              />{" "}
-              {c.comment}{" "}
+                src={avatar_url + c.user.image_url}
+              />{' '}
+              {c.comment}{' '}
             </div>
           ))}
           <span onClick={() => setShowComment(false)}>Hide comments</span>
@@ -227,20 +234,20 @@ export const PostCard = ({
       <div
         className="w-full text-gray-400"
         style={{
-          padding: "0px 15px 5px 15px",
+          padding: '0px 15px 5px 15px',
         }}
       >
         <input
           style={{
-            borderBottom: "1px solid #E4E4E4",
-            paddingBottom: "15px",
+            borderBottom: '1px solid #E4E4E4',
+            paddingBottom: '15px',
           }}
           placeholder="Add a comment..."
           className="w-full text-black"
           onChange={(e) => setComment(e.target.value)}
           value={comment}
           onKeyPress={(e) => {
-            if (e.key === "Enter") addComment();
+            if (e.key === 'Enter') addComment();
           }}
         />
       </div>
