@@ -118,10 +118,10 @@ export const PostCard = ({
             }}
           >
             <Avatar
-              maxW="34px"
-              maxH="34px"
-              objectFit={'cover'}
-              className="cursor-pointer"
+              maxW="40px"
+              maxH="40px"
+              objectFit="cover"
+              className="cursor-pointer w-10 h-10"
               src={avatar_url + user?.image_url}
             />
           </div>
@@ -159,10 +159,6 @@ export const PostCard = ({
       </div>
       <img
         src={post_url + image_url}
-        onError={({ currentTarget }) => {
-          currentTarget.onerror = null;
-          currentTarget.src = image_url;
-        }}
         style={{ aspectRatio: '1', width: '100%', height: '380px' }}
       />
       <div
