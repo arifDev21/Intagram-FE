@@ -113,7 +113,7 @@ export const PostCard = ({
         <div> 
             <img
               className="cursor-pointer object-cover  rounded-full"
-              style={{width: "50x", height: "50px"}}
+              style={{width: "40x", height: "40px"}}
               src={avatar_url + user?.image_url}
             /></div>
           

@@ -29,11 +29,11 @@ export const Footer = () => {
 
      <Video onClick={() => nav('/search')} />
      <a href={`/username/${userSelector.username}`}>
-      <Avatar
-       className="cursor-pointer"
+      <img
+       className="cursor-pointer rounded-full"
+       style={{width: "40px", height: "40px"}}
        src={avatar_url + userSelector.image_url}
-       maxW={'24px'}
-       maxH={'24px'}
+     
       />
      </a>
     </div>
