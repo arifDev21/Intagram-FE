@@ -33,9 +33,7 @@ export const ModalDetailPost = ({ posts, isOpen, onClose, isSearchPage }) => {
           </div>
           <div style={{ ...modalContentStyle }}>
             {' '}
-            <div className="flex flex-wrap justify-center">
-              <PostList posts={posts} />
-            </div>
+            <PostList posts={posts} />
           </div>
         </div>
       </Template>

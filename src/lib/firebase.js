@@ -23,9 +23,3 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 export { auth };
-
-// localhost:2000/img/
-//api.purwadhika-jcwd.com/img/
-
-// img={process.env.react_app_img_url + data.img}
-// bayu.jpg

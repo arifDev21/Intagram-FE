@@ -12,7 +12,7 @@ export const ExplorePage = () => {
   const avatar_url = process.env.REACT_APP_API_IMAGE_AVATAR_URL;
   const [posts, setPosts] = useState([]);
   const [isSearchPage, setIsSearchPage] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const debouncedFilter = useCallback(
     debounce((query) => setSearch(query), 500)
@@ -44,16 +44,14 @@ export const ExplorePage = () => {
       .catch((err) => console.log(err));
   };
 
-  // Function to open the modal
   const openModal = () => {
     setIsModalOpen(true);
-    setIsSearchPage(true); // Set isSearchPage to true when the modal is open
+    setIsSearchPage(true);
   };
 
-  // Function to close the modal
   const closeModal = () => {
     setIsModalOpen(false);
-    setIsSearchPage(false); // Set isSearchPage to false when the modal is closed
+    setIsSearchPage(false);
   };
 
   useEffect(() => {
@@ -81,14 +79,8 @@ export const ExplorePage = () => {
         ))}
         <PostGrid posts={posts} />
       </SearchTemplate>
-      <button onClick={openModal}>Open Modal</button>{' '}
-      {/* Add a button to open the modal */}
-      <ModalDetailPost
-        posts={posts}
-        isOpen={isModalOpen} // Set the isOpen prop based on isModalOpen
-        onClose={closeModal} // Close the modal when it's closed
-        isSearchPage={isSearchPage}
-      />
+
+      {/* Move ModalDetailPost outside the SearchTemplate */}
     </>
   );
 };

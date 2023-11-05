@@ -8,6 +8,8 @@ import { useSelector } from 'react-redux';
 import { api } from '../../api/axios';
 import { useParams } from 'react-router-dom';
 import { Avatar } from '@chakra-ui/react';
+import { ModalDetailPost } from '../../components/post/post-detail-modal';
+import { PostList } from '../../components/post/post-list';
 export const ProfilePage = () => {
   // const posts = [
   //   {
@@ -162,7 +164,6 @@ export const ProfilePage = () => {
               </div>
             </div>
             <PostGrid posts={posts} />
-            {console.log(posts, 'post in profile')}
           </div>
         </ProfileTemplate>
       </div>
