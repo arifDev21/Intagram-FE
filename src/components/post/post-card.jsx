@@ -109,22 +109,15 @@ export const PostCard = ({
         className="flex justify-between w-full  "
         style={{ padding: '8px 16px' }}
       >
-        <div className="flex items-center gap-[5px]  w-full ">
-          <div
-            style={{
-              padding: '3px',
-              borderRadius: '50%',
-              border: 'none',
-            }}
-          >
-            <Avatar
-              maxW="40px"
-              maxH="40px"
-              objectFit="cover"
-              className="cursor-pointer w-10 h-10"
+        <div className="flex items-center gap-5">    
+        <div> 
+            <img
+              className="cursor-pointer object-cover  rounded-full"
+              style={{width: "50x", height: "50px"}}
               src={avatar_url + user?.image_url}
-            />
-          </div>
+            /></div>
+          
+          
           <a href={`/username/${user?.username}`}>
             <b>{user?.username}</b>
           </a>
