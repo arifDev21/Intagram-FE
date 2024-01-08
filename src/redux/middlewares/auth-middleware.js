@@ -1,5 +1,8 @@
+/* eslint-disable array-callback-return */
 import { api } from '../../api/axios';
 import { constant } from '../../constant';
+import {  signInWithPopup, GoogleAuthProvider, FacebookAuthProvider } from 'firebase/auth';
+import { auth } from '../../lib/firebase';
 
 export const userLogin = (values) => {
   return async (dispatch) => {
@@ -21,34 +24,43 @@ export const userLogin = (values) => {
       return err.response.data;
     }
   };
-};
 
-export const userLoginWithGoogle = (values) => {
+};
+export const signInWithGoogle = () => {
   return async (dispatch) => {
     try {
-      let user = await checkIfUserExist(values, 'google_uid');
-      console.log(user);
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const user = await checkIfUserExist(result.user, 'uid_google');
+
+      console.log('User Data:', user);
+
       localStorage.setItem('auth', user.id);
+      console.log('Token Set to localStorage:', user.id);
+
       dispatch({
         type: constant.USER_LOGIN,
         payload: user,
       });
 
-      return constant.success;
     } catch (err) {
       localStorage.removeItem('auth');
-      return err.message;
+      console.error('Error:', err);
+      return err.message || constant.error;
     }
   };
 };
 
-export const userLoginWithFacebook = (values) => {
+export const signInWithFacebook = () => {
   return async (dispatch) => {
     try {
-      let user = await checkIfUserExist(values, 'facebook_uid');
-      localStorage.setItem('auth', user.id);
+      // Authenticate with Firebase using FacebookAuthProvider
+      const provider = new FacebookAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const user = await checkIfUserExist(result.user, 'uid_facebook');
+      
       console.log(user);
-
+      localStorage.setItem('auth', user.id);
       dispatch({
         type: constant.USER_LOGIN,
         payload: user,
@@ -57,7 +69,8 @@ export const userLoginWithFacebook = (values) => {
       return constant.success;
     } catch (err) {
       localStorage.removeItem('auth');
-      return err.message;
+      console.error(err);
+      return err.message || constant.error;
     }
   };
 };
@@ -103,25 +116,18 @@ const checkIfUserExist = async (values, provider = '') => {
       .then((res) => res.data[0])
       .catch((err) => console.log(err));
 
-    console.log(isUserExist);
-    //user email sudah terdaftar tapi tidak memiliki uid
+    console.log(isUserExist,'userexit');
+
     if (isUserExist?.id && !isUserExist[provider]) {
-      isUserExist[provider] = values.uid;
+      isUserExist[provider] = values.uid_google || values.uid_facebook;
+
       user = await api
-        .patch(`/users/${isUserExist.id}`)
+        .patch(`/users/${isUserExist.id}`, isUserExist) // Sesuaikan dengan data yang sesuai dari Google atau Facebook
         .then((res) => res.data)
         .catch((err) => console.log(err));
     } else if (!isUserExist?.id) {
       user = await api
-        .post(
-          '/users',
-          new User(
-            values.displayName,
-            values.email,
-            values.photoURL,
-            values.uid
-          )
-        )
+        .post('/users', new User(values.displayName, values.email, values.photoURL, values.uid_google || values.facebook_uid))
         .then((res) => res.data)
         .catch((err) => console.log(err));
     } else {
@@ -132,13 +138,13 @@ const checkIfUserExist = async (values, provider = '') => {
     console.log(err);
   }
 };
-
 class User {
   constructor(
     fullname = '',
     email = '',
     image_url = '',
-    google_uid = '',
+    uid_google = '',
+    uid_facebook ='',
     username = '',
     password = '',
     gender = '',
@@ -151,6 +157,7 @@ class User {
     this.bio = bio;
     this.image_url = image_url;
     this.fullname = fullname;
-    this.google_uid = google_uid;
+    this.uid_google = uid_google;
+    this.uid_facebook = uid_facebook
   }
 }
