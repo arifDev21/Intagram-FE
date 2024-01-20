@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/alt-text */
-import { Center } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-import success_gif from '../../assets/verified.gif';
-import error_gif from '../../assets/error.gif';
-import { api } from '../../api/axios';
-import { useParams } from 'react-router-dom';
+import { Center } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import success_gif from "../../assets/verified.gif";
+import error_gif from "../../assets/error.gif";
+import { api } from "../../api/axios";
+import { useParams } from "react-router-dom";
 
 export const Verify = () => {
   const [success, setSuccess] = useState(false);
@@ -12,7 +13,7 @@ export const Verify = () => {
   const verifyUser = () => {
     api
       .post(
-        '/auth/verify/token',
+        "/auth/verify/token",
         {},
         {
           params: {
@@ -27,10 +28,10 @@ export const Verify = () => {
     verifyUser();
   }, []);
   return (
-    <Center width={'100vw'} height={'100vh'}>
+    <Center width={"100vw"} height={"100vh"}>
       <img
         w="300px"
-        height={'300px'}
+        height={"300px"}
         src={success ? success_gif : error_gif}
       ></img>
     </Center>

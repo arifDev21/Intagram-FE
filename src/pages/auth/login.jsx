@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-pascal-case */
 import { useState } from "react";
 import {
   Closed_Eye,
@@ -18,13 +19,34 @@ import {
 import { useToast } from "@chakra-ui/react";
 import { constant } from "../../constant";
 import { useNavigate } from "react-router-dom";
-import {
-  FacebookAuthProvider,
-  GoogleAuthProvider,
-  signInWithPopup,
-} from "firebase/auth";
 import { auth } from "../../lib/firebase";
 import { showToast } from "../../lib/toast";
+// ...
+
+// ...
+const SocialLoginButton = ({ provider, onClick, icon, label }) => {
+  const toast = useToast();
+  const nav = useNavigate();
+
+  const handleSocialLogin = async () => {
+    try {
+      await onClick();
+      nav("/home");
+      showToast(toast, constant.success, `Logged in with ${label}`, "success");
+    } catch (err) {
+      showToast(toast, err.message, `Failed to log in with ${label}`, "error");
+    }
+  };
+
+  return (
+    <button className={`${provider}-button`} onClick={handleSocialLogin}>
+      <div className="flex justify-center items-center gap-[5px]">
+        <span>{icon}</span>
+        <span>{`Log in with ${label}`}</span>
+      </div>
+    </button>
+  );
+};
 export const LoginPage = () => {
   const toast = useToast();
   const [see, setSee] = useState(false);
@@ -40,7 +62,6 @@ export const LoginPage = () => {
       if (result === constant.success) {
         nav("/home");
       }
-      console.log(result);
       showToast(
         toast,
         result,
@@ -56,59 +77,6 @@ export const LoginPage = () => {
     console.log(auth.currentUser);
   }, []);
 
-  const loginWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      const res = await signInWithPopup(auth, provider);
-      await dispatch(signInWithGoogle({ ...res.user.providerData[0] }));
-      showToast(
-        toast,
-        constant.success,
-        "Login Success",
-        "success",
-        "Login Failed",
-        constant.success
-      );
-      nav("/home");
-    } catch (err) {
-      console.error(err);
-      showToast(
-        toast,
-        err.message || constant.error,
-        "Login Failed",
-        "error",
-        "Login Failed",
-        err.message || constant.error
-      );
-    }
-  };
-
-  const loginWithFacebook = async () => {
-    const provider = new FacebookAuthProvider();
-    try {
-      const res = await signInWithPopup(auth, provider);
-      await dispatch(signInWithFacebook({ ...res.user.providerData[0] }));
-      showToast(
-        toast,
-        constant.success,
-        "Login Success",
-        "success",
-        "Login Failed",
-        constant.success
-      );
-      nav("/home");
-    } catch (err) {
-      console.error(err);
-      showToast(
-        toast,
-        err.message || constant.error,
-        "Login Failed",
-        "error",
-        "Login Failed",
-        err.message || constant.error
-      );
-    }
-  };
   return (
     <>
       <Template>
@@ -173,22 +141,19 @@ export const LoginPage = () => {
             <div className="flex-grow border-t border-gray-400"></div>
           </div>
 
-          <button className="facebook-button" onClick={loginWithFacebook}>
-            <div className="flex justify-center items-center gap-[5px]">
-              <span>
-                <Fb_logo width={"16px"} height={"16px"} />
-              </span>
-              <span>Log in with Facebook </span>
-            </div>
-          </button>
-          <button className="google-button" onClick={loginWithGoogle}>
-            <div className="flex justify-center items-center gap-[5px]">
-              <span>
-                <Google_logo width={"16px"} height={"16px"} />
-              </span>
-              <span>Log in with Google </span>
-            </div>
-          </button>
+          <SocialLoginButton
+            provider="facebook"
+            onClick={() => dispatch(signInWithFacebook())}
+            icon={<Fb_logo width="16px" height="16px" />}
+            label="Facebook"
+          />
+
+          <SocialLoginButton
+            provider="google"
+            onClick={() => dispatch(signInWithGoogle())}
+            icon={<Google_logo width="16px" height="16px" />}
+            label="Google"
+          />
         </div>
       </Template>
     </>

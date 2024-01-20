@@ -1,22 +1,16 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
-const {
-  REACT_APP_FIREBASE_apiKey,
-  REACT_APP_FIREBASE_authDomain,
-  REACT_APP_FIREBASE_projectId,
-  REACT_APP_FIREBASE_storageBucket,
-  REACT_APP_FIREBASE_messagingSenderId,
-  REACT_APP_FIREBASE_appId,
-} = process.env;
+
 
 const firebaseConfig = {
-  apiKey: REACT_APP_FIREBASE_apiKey,
-  authDomain: REACT_APP_FIREBASE_authDomain,
-  projectId: REACT_APP_FIREBASE_projectId,
-  storageBucket: REACT_APP_FIREBASE_storageBucket,
-  messagingSenderId: REACT_APP_FIREBASE_messagingSenderId,
-  appId: REACT_APP_FIREBASE_appId,
+  apiKey: "AIzaSyDI0S0UAPPL-xnCLBKe4NN-DZHPq7gMqWY",
+  authDomain: "instagram-aca57.firebaseapp.com",
+  databaseURL: "https://instagram-aca57-default-rtdb.firebaseio.com",
+  projectId: "instagram-aca57",
+  storageBucket: "instagram-aca57.appspot.com",
+  messagingSenderId: "977574095264",
+  appId: "1:977574095264:web:7f233dcefc54b528df5cc5"
 };
 
 const app = initializeApp(firebaseConfig);

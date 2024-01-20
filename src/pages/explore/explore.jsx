@@ -1,14 +1,14 @@
-import { useCallback, useEffect, useState } from 'react';
-import { SearchBar } from '../../components/navigation/search';
-import { PostGrid } from '../../components/post/post-grid';
-import { SearchTemplate } from '../../components/template/template';
-import { api } from '../../api/axios';
-import debounce from 'lodash.debounce';
-import { Avatar } from '@chakra-ui/react';
-import { ModalDetailPost } from '../../components/post/post-detail-modal';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
+import { useCallback, useEffect, useState } from "react";
+import { PostGrid } from "../../components/post/post-grid";
+import { SearchTemplate } from "../../components/template/template";
+import { api } from "../../api/axios";
+import debounce from "lodash.debounce";
+import { Avatar } from "@chakra-ui/react";
 
 export const ExplorePage = () => {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const avatar_url = process.env.REACT_APP_API_IMAGE_AVATAR_URL;
   const [posts, setPosts] = useState([]);
   const [isSearchPage, setIsSearchPage] = useState(true);
@@ -18,14 +18,14 @@ export const ExplorePage = () => {
     debounce((query) => setSearch(query), 500)
   );
   const doSearch = (query) => {
-    if (!query) return setSearch('');
+    if (!query) return setSearch("");
     debouncedFilter(query);
   };
   const [users, setUsers] = useState([]);
 
   const fetchPost = () => {
     api
-      .get('/posts/search', {
+      .get("/posts/search", {
         params: {
           search,
         },
@@ -35,7 +35,7 @@ export const ExplorePage = () => {
   };
   const fetchUsers = () => {
     api
-      .get('/auth/username2/', {
+      .get("/auth/username2/", {
         params: {
           username: search,
         },
@@ -69,18 +69,16 @@ export const ExplorePage = () => {
               <Avatar
                 maxW="24px"
                 maxH="24px"
-                objectFit={'cover'}
+                objectFit={"cover"}
                 className="cursor-pointer"
                 src={avatar_url + user.image_url}
-              />{' '}
-              {user.username}{' '}
+              />{" "}
+              {user.username}{" "}
             </div>
           </a>
         ))}
         <PostGrid posts={posts} />
       </SearchTemplate>
-
-      {/* Move ModalDetailPost outside the SearchTemplate */}
     </>
   );
 };

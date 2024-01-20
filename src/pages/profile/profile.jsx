@@ -1,42 +1,17 @@
-import { useEffect, useState } from 'react';
-import { Post, Reels, Suggestion, Tagged } from '../../assets/icons';
-import { PostGrid } from '../../components/post/post-grid';
-import { EditProfile } from '../../components/profile/modal-profile';
-import { ProfileStories, StoryCard } from '../../components/story/story';
-import { ProfileTemplate } from '../../components/template/template';
-import { useSelector } from 'react-redux';
-import { api } from '../../api/axios';
-import { useParams } from 'react-router-dom';
-import { Avatar } from '@chakra-ui/react';
-import { ModalDetailPost } from '../../components/post/post-detail-modal';
-import { PostList } from '../../components/post/post-list';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable eqeqeq */
+import { useEffect, useState } from "react";
+import { Post, Reels, Suggestion, Tagged } from "../../assets/icons";
+import { PostGrid } from "../../components/post/post-grid";
+import { EditProfile } from "../../components/profile/modal-profile";
+import { ProfileStories, StoryCard } from "../../components/story/story";
+import { ProfileTemplate } from "../../components/template/template";
+import { useSelector } from "react-redux";
+import { api } from "../../api/axios";
+import { useParams } from "react-router-dom";
+
 export const ProfilePage = () => {
-  // const posts = [
-  //   {
-  //     image_url:
-  //       "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Lion_waiting_in_Namibia.jpg/1200px-Lion_waiting_in_Namibia.jpg",
-  //   },
-  //   {
-  //     image_url:
-  //       "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Lion_waiting_in_Namibia.jpg/1200px-Lion_waiting_in_Namibia.jpg",
-  //   },
-  //   {
-  //     image_url:
-  //       "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Lion_waiting_in_Namibia.jpg/1200px-Lion_waiting_in_Namibia.jpg",
-  //   },
-  //   {
-  //     image_url:
-  //       "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Lion_waiting_in_Namibia.jpg/1200px-Lion_waiting_in_Namibia.jpg",
-  //   },
-  //   {
-  //     image_url:
-  //       "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Lion_waiting_in_Namibia.jpg/1200px-Lion_waiting_in_Namibia.jpg",
-  //   },
-  //   {
-  //     image_url:
-  //       "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Lion_waiting_in_Namibia.jpg/1200px-Lion_waiting_in_Namibia.jpg",
-  //   },
-  // ];
   const [isOpen, setIsOpen] = useState(false);
   const userSelector = useSelector((state) => state.auth);
   const [user, setUser] = useState({});
@@ -46,7 +21,7 @@ export const ProfilePage = () => {
   const params = useParams();
   const fetchUser = () => {
     api
-      .get('/auth/username/' + params.username)
+      .get("/auth/username/" + params.username)
       .then((res) => {
         console.log(res.data);
         setUser(res.data);
@@ -62,7 +37,7 @@ export const ProfilePage = () => {
   };
   const follow = () => {
     api
-      .post('/follows/', {
+      .post("/follows/", {
         following_user_id: userSelector?.id,
         followed_user_id: user.id,
       })
@@ -79,7 +54,7 @@ export const ProfilePage = () => {
   return (
     <>
       <EditProfile isOpen={isOpen} onClose={() => setIsOpen(false)} />
-      <div className={`transition-all ${isOpen ? 'hidden' : null}`}>
+      <div className={`transition-all ${isOpen ? "hidden" : null}`}>
         <ProfileTemplate>
           {/* //following followers */}
           <div className="flex items-center justify-between w-full">
@@ -135,8 +110,8 @@ export const ProfilePage = () => {
                       {user?.followed_users?.find(({ following_user_id }) => {
                         return following_user_id == userSelector.id;
                       })
-                        ? 'Unfollow'
-                        : 'Follow'}
+                        ? "Unfollow"
+                        : "Follow"}
                     </button>
                     <a className="w-full" href={`/message/${user.username}`}>
                       <button className="w-full grow">Send Message</button>

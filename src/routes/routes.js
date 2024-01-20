@@ -41,7 +41,7 @@ export const routes = [
  new RouteClass('home', <HomePage />, true, false, true),
  new RouteClass('required', <RequiredPage />, true),
  new RouteClass('search', <SearchPage />, true, false, true),
- //  new RouteClass('profile', <ProfilePage />, true, false, true),
+ new RouteClass('profile', <ProfilePage />, true, false, true),
  new RouteClass('username/:username', <ProfilePage />, true, false, true),
  new RouteClass('explore', <ExplorePage />, true, false, true),
  new RouteClass('forgot-password', <ForgotPasswordPage />, false, true),

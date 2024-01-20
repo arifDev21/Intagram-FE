@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-pascal-case */
 import { useState } from "react";
 import { Closed_Eye, Eye, Logo_instagram } from "../../assets/icons";
 import { Template } from "../../components/template/template";
@@ -21,7 +22,6 @@ export const RegisterPage = () => {
       username: "",
       email: "",
       phone_number: "",
-      gender: "",
       password: "",
       confirm_password: "",
       bio: "",
@@ -33,7 +33,6 @@ export const RegisterPage = () => {
       fullname: Yup.string().min(3).required(),
       phone_number: Yup.string().required(),
       username: Yup.string().min(3).required(),
-      gender: Yup.string().required(),
       password: Yup.string().minLowercase(1).minUppercase(1).min(4).required(),
       confirm_password: Yup.string()
         .required("confirm password is a required field")
@@ -119,21 +118,6 @@ export const RegisterPage = () => {
             <span className="text-red-500"> {formik.errors.email}</span>
           </div>
 
-          <div className="flex max-w-[320px] w-full justify-center  flex-col">
-            <select
-              required
-              className="input-container"
-              style={{ padding: "0px 15px" }}
-              onChange={(e) => formik.setFieldValue("gender", e.target.value)}
-            >
-              <option value="" disabled selected hidden>
-                Choose Gender
-              </option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
-            <span className="text-red-500"> {formik.errors.gender}</span>
-          </div>
           <div className="flex max-w-[320px] w-full justify-center  flex-col">
             <div className="input-container">
               <input

@@ -1,18 +1,16 @@
-import { useState } from "react";
-import { Closed_Eye, Eye, Logo_instagram } from "../../assets/icons";
+/* eslint-disable react/jsx-pascal-case */
+import { Logo_instagram } from "../../assets/icons";
 import { Template } from "../../components/template/template";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useSelector, useDispatch } from "react-redux";
 import { userUpdate } from "../../redux/middlewares/auth-middleware";
 import { constant } from "../../constant";
-import { useNavigate } from "react-router-dom";
 import { showToast } from "../../lib/toast";
 import { useToast } from "@chakra-ui/react";
 export const RequiredPage = () => {
   const userSelector = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const nav = useNavigate("/home");
   const toast = useToast();
   const formik = useFormik({
     initialValues: {
