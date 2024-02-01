@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-pascal-case */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Closed_Eye,
   Eye,
@@ -9,44 +10,12 @@ import {
 } from "../../assets/icons";
 import { Template } from "../../components/template/template";
 import { useFormik } from "formik";
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import {
-  userLogin,
-  signInWithGoogle,
-  signInWithFacebook,
-} from "../../redux/middlewares/auth-middleware";
+import { userLogin } from "../../redux/middlewares/auth-middleware";
 import { useToast } from "@chakra-ui/react";
 import { constant } from "../../constant";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../lib/firebase";
 import { showToast } from "../../lib/toast";
-// ...
-
-// ...
-const SocialLoginButton = ({ provider, onClick, icon, label }) => {
-  const toast = useToast();
-  const nav = useNavigate();
-
-  const handleSocialLogin = async () => {
-    try {
-      await onClick();
-      nav("/home");
-      showToast(toast, constant.success, `Logged in with ${label}`, "success");
-    } catch (err) {
-      showToast(toast, err.message, `Failed to log in with ${label}`, "error");
-    }
-  };
-
-  return (
-    <button className={`${provider}-button`} onClick={handleSocialLogin}>
-      <div className="flex justify-center items-center gap-[5px]">
-        <span>{icon}</span>
-        <span>{`Log in with ${label}`}</span>
-      </div>
-    </button>
-  );
-};
 export const LoginPage = () => {
   const toast = useToast();
   const [see, setSee] = useState(false);
@@ -54,7 +23,7 @@ export const LoginPage = () => {
   const nav = useNavigate();
   const formik = useFormik({
     initialValues: {
-      user: "",
+      username: "",
       password: "",
     },
     onSubmit: async (values) => {
@@ -74,7 +43,13 @@ export const LoginPage = () => {
   });
 
   useEffect(() => {
-    console.log(auth.currentUser);
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("token");
+
+    if (token) {
+      localStorage.setItem("auth", token);
+      window.location.href = "/home";
+    }
   }, []);
 
   return (
@@ -88,7 +63,7 @@ export const LoginPage = () => {
               className="mobile-input"
               placeholder="Phone number, email or username"
               style={{ paddingRight: "25px" }}
-              onChange={(e) => formik.setFieldValue("user", e.target.value)}
+              onChange={(e) => formik.setFieldValue("username", e.target.value)}
             />
           </div>
           <div className="input-container">
@@ -111,21 +86,9 @@ export const LoginPage = () => {
               )}
             </button>
           </div>
-          <div
-            className="input-container flex-col  gap-2"
-            style={{ background: "none", border: "none" }}
-          >
-            <a href="/forgot-password">
-              <div className="flex justify-end text-[14px] font-semibold cursor-pointer">
-                Forgot Password
-              </div>
-            </a>
-
-            <button className="auth-button" onClick={formik.handleSubmit}>
-              Log in
-            </button>
-          </div>
-
+          <button className="auth-button" onClick={formik.handleSubmit}>
+            Log in
+          </button>
           <div className=" text-[13px]">
             Don't have an account?{" "}
             <span>
@@ -141,19 +104,24 @@ export const LoginPage = () => {
             <div className="flex-grow border-t border-gray-400"></div>
           </div>
 
-          <SocialLoginButton
-            provider="facebook"
-            onClick={() => dispatch(signInWithFacebook())}
-            icon={<Fb_logo width="16px" height="16px" />}
-            label="Facebook"
-          />
-
-          <SocialLoginButton
-            provider="google"
-            onClick={() => dispatch(signInWithGoogle())}
-            icon={<Google_logo width="16px" height="16px" />}
-            label="Google"
-          />
+          <button className="facebook-button">
+            <div className="flex justify-center items-center gap-[5px]">
+              <span>
+                <Fb_logo width={"16px"} height={"16px"} />
+              </span>
+              <span>Log in with Facebook </span>
+            </div>
+          </button>
+          <button className="google-button">
+            <a href="http://localhost:2700/auth/google">
+              <div className="flex justify-center items-center gap-[5px]">
+                <span>
+                  <Google_logo width={"16px"} height={"16px"} />
+                </span>
+                <span>Log in with Google </span>
+              </div>
+            </a>
+          </button>
         </div>
       </Template>
     </>
