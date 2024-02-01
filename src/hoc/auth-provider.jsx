@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { api } from "../api/axios";
 import { useEffect, useState } from "react";
 import { constant } from "../constant";
@@ -6,12 +6,11 @@ import { constant } from "../constant";
 export const AuthProvider = ({ children }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
-  const userSelector = useSelector((state) => state.auth);
 
   const fetchData = async () => {
     try {
       const token = localStorage.getItem("auth");
-      if (!token) throw new Error("Token not found in localStorage");
+      if (!token) throw new Error("token not found in localStorage");
 
       const response = await api.get(`/auth/token/`);
 

@@ -10,19 +10,15 @@ export const ProtectedPage = ({
 }) => {
   const userSelector = useSelector((state) => state.auth);
   const navigate = useNavigate();
-
   useEffect(() => {
-    const redirectToLogin = () => navigate("/login");
-    const redirectToHome = () => navigate("/home");
-    const redirectToRequired = () => navigate("/required");
-
-    if (needLogin) {
-      if (!userSelector?.id) return redirectToLogin();
-      if (required && !userSelector.username) return redirectToRequired();
-    } else if (guestOnly && userSelector.id) {
-      return redirectToHome();
-    }
+    if (needLogin && !userSelector?.id) return navigate("/login");
+    else if (needLogin && !required && userSelector.username)
+      return navigate("/home");
+    else if (needLogin && required && !userSelector.username)
+      return navigate("/required");
+    else if (guestOnly && userSelector.id) return navigate("/home");
   }, [
+    children,
     guestOnly,
     navigate,
     needLogin,
