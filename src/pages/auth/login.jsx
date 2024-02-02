@@ -23,7 +23,7 @@ export const LoginPage = () => {
   const nav = useNavigate();
   const formik = useFormik({
     initialValues: {
-      username: "",
+      user: "",
       password: "",
     },
     onSubmit: async (values) => {
@@ -63,7 +63,7 @@ export const LoginPage = () => {
               className="mobile-input"
               placeholder="Phone number, email or username"
               style={{ paddingRight: "25px" }}
-              onChange={(e) => formik.setFieldValue("username", e.target.value)}
+              onChange={(e) => formik.setFieldValue("user", e.target.value)}
             />
           </div>
           <div className="input-container">
