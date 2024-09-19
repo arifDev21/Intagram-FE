@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:2700',
+  // baseURL: 'http://localhost:2700',
+    baseURL: 'https://instagram-be.vercel.app'
+
 });
 
 // Tambahkan interceptor untuk memperbarui header otorisasi sebelum setiap permintaan
